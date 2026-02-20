@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/Aspire/">
+    <Project Path="Aspire/HexMaster.FloodRush.Aspire/HexMaster.FloodRush.Aspire.AppHost/HexMaster.FloodRush.Aspire.AppHost.csproj" Id="47b2bb65-a9c8-417b-a341-de7a9fb346d6" />
+    <Project Path="Aspire/HexMaster.FloodRush.Aspire/HexMaster.FloodRush.Aspire.ServiceDefaults/HexMaster.FloodRush.Aspire.ServiceDefaults.csproj" />
+  </Folder>
+  <Project Path="HexMaster.FloodRush.App/HexMaster.FloodRush.App.csproj" />
+</Solution>
