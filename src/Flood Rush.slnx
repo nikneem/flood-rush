@@ -3,5 +3,9 @@
     <Project Path="Aspire/HexMaster.FloodRush.Aspire/HexMaster.FloodRush.Aspire.AppHost/HexMaster.FloodRush.Aspire.AppHost.csproj" Id="47b2bb65-a9c8-417b-a341-de7a9fb346d6" />
     <Project Path="Aspire/HexMaster.FloodRush.Aspire/HexMaster.FloodRush.Aspire.ServiceDefaults/HexMaster.FloodRush.Aspire.ServiceDefaults.csproj" />
   </Folder>
-  <Project Path="HexMaster.FloodRush.App/HexMaster.FloodRush.App.csproj" />
+  <Project Path="HexMaster.FloodRush.App/HexMaster.FloodRush.App.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="HexMaster.FloodRush.Game.Tests/HexMaster.FloodRush.Game.Tests.csproj" Id="06b3a9f8-9307-4de0-a07f-85b80555c733" />
+  <Project Path="HexMaster.FloodRush.Game/HexMaster.FloodRush.Game.csproj" Id="3e7c2253-8b0c-48a2-879b-ebb5a752910f" />
 </Solution>
