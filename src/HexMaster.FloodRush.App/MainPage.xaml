@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HexMaster.FloodRush.App.MainPage"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+    <Grid>
+        <!-- Background Image -->
+        <Image
+            Source="landingpage_background.png"
+            Aspect="AspectFill"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" />
+
+        <!-- Grid for 60% width logo and buttons -->
+        <Grid HorizontalOptions="Fill" VerticalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*" />
+                <ColumnDefinition Width="0.6*" />
+                <ColumnDefinition Width="0.2*" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Centered Logo and Buttons at 60% viewport width -->
+            <VerticalStackLayout
+                Grid.Column="1"
+                Spacing="30"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center">
+                
+                <Image
+                    Source="logo_text.png"
+                    Aspect="AspectFit"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center" />
+                
+                <HorizontalStackLayout
+                    Spacing="20"
+                    HorizontalOptions="Center">
+                    
+                    <Button
+                        Text="Play Now"
+                        Style="{StaticResource GradientButton}"
+                        Clicked="OnPlayNowClicked"
+                        WidthRequest="150" />
+                    
+                    <Button
+                        Text="Settings"
+                        Style="{StaticResource GradientButton}"
+                        Clicked="OnSettingsClicked"
+                        WidthRequest="150" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+
+</ContentPage>

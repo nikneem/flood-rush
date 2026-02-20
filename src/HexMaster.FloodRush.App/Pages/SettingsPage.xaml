@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HexMaster.FloodRush.App.Pages.SettingsPage"
+             Title="Settings"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
+             BackgroundColor="#CC000000">
+
+    <Grid>
+        <!-- Semi-transparent overlay -->
+        <BoxView BackgroundColor="#80000000" />
+
+        <!-- Settings Card -->
+        <Border
+            BackgroundColor="{StaticResource Secondary}"
+            StrokeThickness="0"
+            Padding="10"
+            Margin="20"
+            VerticalOptions="Fill"
+            HorizontalOptions="Fill">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+
+            <ScrollView>
+                <VerticalStackLayout Spacing="25">
+                <!-- Title -->
+                <Label
+                    Text="Settings"
+                    Style="{StaticResource PageTitle}"
+                    Margin="0,0,0,10" />
+
+                <!-- Two-Column Layout -->
+                <Grid ColumnSpacing="30" RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left Column: Player Name -->
+                    <VerticalStackLayout Grid.Column="0" Spacing="10">
+                        <Label
+                            Text="Player Name"
+                            Style="{StaticResource FieldLabel}" />
+                        <Entry
+                            x:Name="PlayerNameEntry"
+                            Text="{Binding PlayerName}"
+                            TextChanged="OnPlayerNameChanged"
+                            Placeholder="Enter your name"
+                            Style="{StaticResource TextEntry}"
+                            MaxLength="25" />
+                        <Label
+                            x:Name="PlayerNameError"
+                            Text="Only letters, numbers, spaces, underscores and hyphens allowed"
+                            FontSize="12"
+                            TextColor="#ff4444"
+                            IsVisible="False"
+                            Margin="5,0,0,0" />
+                    </VerticalStackLayout>
+
+                    <!-- Right Column: Volume Controls -->
+                    <VerticalStackLayout Grid.Column="1" Spacing="25">
+                        <!-- Music Volume -->
+                        <VerticalStackLayout Spacing="10">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    Text="Music Volume"
+                                    Style="{StaticResource FieldLabel}"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    x:Name="MusicVolumeLabel"
+                                    Text="{Binding MusicVolume}"
+                                    FontSize="16"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Slider
+                                x:Name="MusicVolumeSlider"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="{Binding MusicVolume}"
+                                ValueChanged="OnMusicVolumeChanged"
+                                MinimumTrackColor="{StaticResource Primary}"
+                                MaximumTrackColor="#404040"
+                                ThumbColor="{StaticResource Primary}" />
+                        </VerticalStackLayout>
+
+                        <!-- Sound Volume -->
+                        <VerticalStackLayout Spacing="10">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label
+                                    Text="Sound Volume"
+                                    Style="{StaticResource FieldLabel}"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="Center" />
+                                <Label
+                                    x:Name="SoundVolumeLabel"
+                                    Text="{Binding SoundVolume}"
+                                    FontSize="16"
+                                    TextColor="White"
+                                    VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+                            <Slider
+                                x:Name="SoundVolumeSlider"
+                                Minimum="0"
+                                Maximum="100"
+                                Value="{Binding SoundVolume}"
+                                ValueChanged="OnSoundVolumeChanged"
+                                MinimumTrackColor="{StaticResource Primary}"
+                                MaximumTrackColor="#404040"
+                                ThumbColor="{StaticResource Primary}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Back Button -->
+                <Button
+                    Text="Back"
+                    Style="{StaticResource GradientButton}"
+                    Clicked="OnBackButtonClicked"
+                    HorizontalOptions="Center"
+                    WidthRequest="200"
+                    Margin="0,20,0,0" />
+            </VerticalStackLayout>
+            </ScrollView>
+        </Border>
+    </Grid>
+
+</ContentPage>

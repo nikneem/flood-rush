@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="456" height="456" viewBox="0 0 456 456" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="copperGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" style="stop-color:#d4894f;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#b87333;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#8b5a2b;stop-opacity:1" />
+        </linearGradient>
+        <radialGradient id="pipeShine" cx="30%" cy="40%">
+            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4" />
+            <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+        </radialGradient>
+    </defs>
+    
+    <!-- Main pipe body -->
+    <rect x="160" y="250" width="136" height="220" fill="#6b8e9b" stroke="#3a5a6b" stroke-width="6" rx="8"/>
+    
+    <!-- Pipe shine effect -->
+    <rect x="170" y="260" width="40" height="200" fill="url(#pipeShine)" rx="8"/>
+    
+    <!-- Pipe shadow inside -->
+    <rect x="250" y="260" width="35" height="200" fill="#2a3a4b" opacity="0.3" rx="4"/>
+    
+    <!-- Copper rim top -->
+    <ellipse cx="228" cy="250" rx="78" ry="18" fill="url(#copperGradient)" stroke="#6b4423" stroke-width="4"/>
+    <ellipse cx="228" cy="248" rx="78" ry="18" fill="url(#copperGradient)"/>
+    
+    <!-- Copper rim highlight -->
+    <ellipse cx="228" cy="244" rx="60" ry="8" fill="#f4a460" opacity="0.6"/>
+    
+    <!-- Inner pipe opening (dark) -->
+    <ellipse cx="228" cy="248" rx="55" ry="12" fill="#1a2a3b"/>
+    
+    <!-- Water splash - left big drop -->
+    <path d="M 180,220 Q 150,180 155,140 Q 160,100 145,90 Q 155,95 165,110 Q 175,125 180,145 Q 185,165 185,185 Z" 
+          fill="#4db8e8" stroke="#2a7aa0" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="165" cy="120" rx="8" ry="12" fill="#ffffff" opacity="0.5"/>
+    
+    <!-- Water splash - center big drop -->
+    <path d="M 228,200 Q 220,150 225,100 Q 230,50 220,30 Q 230,40 238,70 Q 245,100 240,130 Q 235,160 235,180 Z" 
+          fill="#4db8e8" stroke="#2a7aa0" stroke-width="5" stroke-linejoin="round"/>
+    <ellipse cx="232" cy="80" rx="10" ry="15" fill="#ffffff" opacity="0.6"/>
+    
+    <!-- Water splash - right big drop -->
+    <path d="M 275,215 Q 290,175 295,135 Q 300,95 310,85 Q 300,90 288,110 Q 280,125 275,145 Q 270,165 270,185 Z" 
+          fill="#4db8e8" stroke="#2a7aa0" stroke-width="4" stroke-linejoin="round"/>
+    <ellipse cx="290" cy="115" rx="8" ry="12" fill="#ffffff" opacity="0.5"/>
+    
+    <!-- Small water drops -->
+    <circle cx="195" cy="180" r="8" fill="#4db8e8" stroke="#2a7aa0" stroke-width="2"/>
+    <circle cx="260" cy="175" r="6" fill="#4db8e8" stroke="#2a7aa0" stroke-width="2"/>
+    <circle cx="210" cy="165" r="5" fill="#4db8e8" stroke="#2a7aa0" stroke-width="2"/>
+    <circle cx="245" cy="190" r="7" fill="#4db8e8" stroke="#2a7aa0" stroke-width="2"/>
+    
+    <!-- Water shine on drops -->
+    <circle cx="197" cy="177" r="3" fill="#ffffff" opacity="0.8"/>
+    <circle cx="262" cy="173" r="2" fill="#ffffff" opacity="0.8"/>
+    <circle cx="247" cy="188" r="2.5" fill="#ffffff" opacity="0.8"/>
+    
+    <!-- Cartoon outline effect on pipe -->
+    <rect x="160" y="250" width="136" height="220" fill="none" stroke="#2a3a4b" stroke-width="8" rx="8"/>
+</svg>
