@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HexMaster.FloodRush.App.Pages.LevelStartPage"
+             BackgroundColor="Transparent">
+
+    <!-- Overlay background with semi-transparent dark background -->
+    <AbsoluteLayout>
+        <!-- Semi-transparent overlay -->
+        <BoxView BackgroundColor="#CC000000"
+                 AbsoluteLayout.LayoutBounds="0,0,1,1"
+                 AbsoluteLayout.LayoutFlags="All" />
+
+        <!-- Center content box -->
+        <Frame AbsoluteLayout.LayoutBounds="0.5,0.5,320,400"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               BackgroundColor="{StaticResource Secondary}"
+               BorderColor="{StaticResource Primary}"
+               CornerRadius="20"
+               Padding="0"
+               HasShadow="True">
+
+            <Grid RowSpacing="0" Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Title -->
+                <Label Grid.Row="0"
+                       Text="LEVEL START"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Primary}"
+                       HorizontalOptions="Center"
+                       Margin="0,10,0,20" />
+
+                <!-- Level Number -->
+                <Frame Grid.Row="1"
+                       BackgroundColor="{StaticResource SecondaryDark}"
+                       BorderColor="{StaticResource Primary}"
+                       CornerRadius="12"
+                       Padding="10"
+                       Margin="0,0,0,20">
+                    <StackLayout Spacing="5">
+                        <Label Text="LEVEL"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource SecondaryDarkText}"
+                               HorizontalOptions="Center" />
+                        <Label x:Name="LevelNumberLabel"
+                               Text="1"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalOptions="Center" />
+                        <Label Text="GRID SIZE"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource SecondaryDarkText}"
+                               HorizontalOptions="Center" />
+                        <Label x:Name="GridSizeLabel"
+                               Text="8 × 10"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}"
+                               HorizontalOptions="Center" />
+                    </StackLayout>
+                </Frame>
+
+                <!-- Start Button -->
+                <Button Grid.Row="3"
+                        Text="START"
+                        Style="{StaticResource GradientButton}"
+                        Clicked="OnStartButtonClicked"
+                        Margin="0,10,0,10" />
+            </Grid>
+        </Frame>
+    </AbsoluteLayout>
+
+</ContentPage>

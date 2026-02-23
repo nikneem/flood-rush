@@ -30,7 +30,7 @@ public partial class NextTilesQueueControl : Border
         {
             var newPipe = GenerateRandomPipeSection(i);
             _pipeQueue.Add(newPipe);
-            
+
             // Create and add the pipe control positioned off-screen to the right
             var pipeControl = new PipeControl
             {
@@ -38,18 +38,18 @@ public partial class NextTilesQueueControl : Border
                 TranslationX = 200, // Start off-screen to the right
                 Opacity = 0
             };
-            
+
             TilesContainer.Children.Add(pipeControl);
-            
+
             // Slide in from right with fade-in, creating a gravity effect
             await Task.WhenAll(
                 pipeControl.TranslateToAsync(5, 0, 300, Easing.CubicOut),
                 pipeControl.FadeToAsync(1, 300)
             );
-            
+
             // Bounce back to final position for gravity effect
             await pipeControl.TranslateToAsync(0, 0, BounceBackDuration, Easing.BounceOut);
-            
+
             // Wait 200ms before adding the next tile (except for the last one)
             if (i < QueueSize - 1)
             {

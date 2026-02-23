@@ -23,6 +23,18 @@ public partial class GamePage : ContentPage
         if (_viewModel.Level != null)
         {
             PlayField.InitializeLevel(_viewModel.Level);
+
+            // Show level start dialog
+            var levelStartPage = new LevelStartPage();
+            levelStartPage.SetLevelInfo(_viewModel.Level);
+
+            await Navigation.PushModalAsync(levelStartPage, animated: false);
+
+            // Wait for user to click start
+            await levelStartPage.WaitForStartAsync();
+
+            // Close the dialog
+            await Navigation.PopModalAsync(animated: false);
         }
 
         // Load tiles progressively into the queue
