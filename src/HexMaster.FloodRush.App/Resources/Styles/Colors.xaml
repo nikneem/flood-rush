@@ -9,11 +9,13 @@
     <Color x:Key="PrimaryDark">#f9e181</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#1a3073</Color>
+    <Color x:Key="SecondaryDark">#191f32</Color>
     <Color x:Key="SecondaryDarkText">#5b7ac8</Color>
     <Color x:Key="Tertiary">#73521a</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
+    <Color x:Key="BlackTransparent">#80000000</Color>
     <Color x:Key="Magenta">#D600AA</Color>
     <Color x:Key="MidnightBlue">#190649</Color>
     <Color x:Key="OffBlack">#1f1f1f</Color>
@@ -32,6 +34,7 @@
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>
     <SolidColorBrush x:Key="WhiteBrush" Color="{StaticResource White}"/>
     <SolidColorBrush x:Key="BlackBrush" Color="{StaticResource Black}"/>
+    <SolidColorBrush x:Key="BlackTransparentBrush" Color="{StaticResource BlackTransparent}"/>
 
     <SolidColorBrush x:Key="Gray100Brush" Color="{StaticResource Gray100}"/>
     <SolidColorBrush x:Key="Gray200Brush" Color="{StaticResource Gray200}"/>
@@ -41,4 +44,14 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}"/>
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}"/>
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}"/>
+
+    <!-- Steel Blue Gradient - creates metallic steel appearance based on Secondary color -->
+    <LinearGradientBrush x:Key="SteelBlueGradient" StartPoint="0,1" EndPoint="1,0">
+        <GradientStop Color="#3d5aa3" Offset="0.0" />
+        <GradientStop Color="{StaticResource Secondary}" Offset="0.3" />
+        <GradientStop Color="#122050" Offset="0.5" />
+        <GradientStop Color="{StaticResource Secondary}" Offset="0.7" />
+        <GradientStop Color="#4668b8" Offset="1.0" />
+    </LinearGradientBrush>
+
 </ResourceDictionary>

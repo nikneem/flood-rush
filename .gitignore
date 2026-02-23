@@ -418,7 +418,8 @@ test-results/
 
 # Mac bundle stuff
 *.dmg
-*.app
+# Note: *.app removed to avoid matching project folders like FloodRush.App
+# Mac app bundles are handled by the MAUI-specific pattern: **/MacCatalyst/**/*.app
 
 # content below from: https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
 # General

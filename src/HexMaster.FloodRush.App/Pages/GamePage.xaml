@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:HexMaster.FloodRush.App.Controls"
+             x:Class="HexMaster.FloodRush.App.Pages.GamePage"
+             Title="Game"
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
+
+    <AbsoluteLayout>
+        <!-- Full-page background image - covers entire screen including safe areas -->
+        <Image Source="gameplay_background_image.jpg"
+               Aspect="AspectFill"
+               AbsoluteLayout.LayoutBounds="0,0,1,1"
+               AbsoluteLayout.LayoutFlags="All" />
+
+        <!-- Content Grid - respects safe areas -->
+        <Grid x:Name="ContentGrid"
+              RowSpacing="0"
+              AbsoluteLayout.LayoutBounds="0,0,1,1"
+              AbsoluteLayout.LayoutFlags="All">
+            <Grid.RowDefinitions>
+                <!-- Top row: Game info (thin) -->
+                <RowDefinition Height="40" />
+                <!-- Middle row: Game play area (fills screen) -->
+                <RowDefinition Height="*" />
+                <!-- Bottom row: Controls (thicker than top, but still thin) -->
+                <RowDefinition Height="60" />
+            </Grid.RowDefinitions>
+
+            <!-- Top Row: Game Information -->
+            <controls:GameStatsBar Grid.Row="0"
+                              CurrentLevel="{Binding CurrentLevel}"
+                              Time="{Binding PlayTime}"
+                              HighScore="{Binding TopScore}"
+                              Score="{Binding CurrentScore}" />
+
+        <!-- Middle Row: Game Play Area -->
+        <Grid Grid.Row="1">
+                
+                <Grid>
+                    <!-- Scrollable Game Area on top -->
+                    <ScrollView HorizontalScrollBarVisibility="Never"
+                               VerticalScrollBarVisibility="Never">
+                    <Grid x:Name="GamePlayArea"
+                          RowSpacing="2"
+                          ColumnSpacing="2"
+                          Padding="10"
+                          BackgroundColor="{StaticResource SecondaryDark}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Row 0 -->
+                    <controls:TileControl Grid.Row="0" Grid.Column="0" />
+                    <controls:TileControl Grid.Row="0" Grid.Column="1" />
+                    <controls:TileControl Grid.Row="0" Grid.Column="2" />
+                    <controls:TileControl Grid.Row="0" Grid.Column="3" />
+                    <controls:TileControl Grid.Row="0" Grid.Column="4" />
+                    <controls:TileControl Grid.Row="0" Grid.Column="5" />
+                    <controls:TileControl Grid.Row="0" Grid.Column="6" />
+                    <controls:TileControl Grid.Row="0" Grid.Column="7" />
+
+                    <!-- Row 1 -->
+                    <controls:TileControl Grid.Row="1" Grid.Column="0" />
+                    <controls:TileControl Grid.Row="1" Grid.Column="1" />
+                    <controls:TileControl Grid.Row="1" Grid.Column="2" />
+                    <controls:TileControl Grid.Row="1" Grid.Column="3" />
+                    <controls:TileControl Grid.Row="1" Grid.Column="4" />
+                    <controls:TileControl Grid.Row="1" Grid.Column="5" />
+                    <controls:TileControl Grid.Row="1" Grid.Column="6" />
+                    <controls:TileControl Grid.Row="1" Grid.Column="7" />
+
+                    <!-- Row 2 -->
+                    <controls:TileControl Grid.Row="2" Grid.Column="0" />
+                    <controls:TileControl Grid.Row="2" Grid.Column="1" />
+                    <controls:TileControl Grid.Row="2" Grid.Column="2" />
+                    <controls:TileControl Grid.Row="2" Grid.Column="3" />
+                    <controls:TileControl Grid.Row="2" Grid.Column="4" />
+                    <controls:TileControl Grid.Row="2" Grid.Column="5" />
+                    <controls:TileControl Grid.Row="2" Grid.Column="6" />
+                    <controls:TileControl Grid.Row="2" Grid.Column="7" />
+
+                    <!-- Row 3 -->
+                    <controls:TileControl Grid.Row="3" Grid.Column="0" />
+                    <controls:TileControl Grid.Row="3" Grid.Column="1" />
+                    <controls:TileControl Grid.Row="3" Grid.Column="2" />
+                    <controls:TileControl Grid.Row="3" Grid.Column="3" />
+                    <controls:TileControl Grid.Row="3" Grid.Column="4" />
+                    <controls:TileControl Grid.Row="3" Grid.Column="5" />
+                    <controls:TileControl Grid.Row="3" Grid.Column="6" />
+                    <controls:TileControl Grid.Row="3" Grid.Column="7" />
+
+                    <!-- Row 4 -->
+                    <controls:TileControl Grid.Row="4" Grid.Column="0" />
+                    <controls:TileControl Grid.Row="4" Grid.Column="1" />
+                    <controls:TileControl Grid.Row="4" Grid.Column="2" />
+                    <controls:TileControl Grid.Row="4" Grid.Column="3" />
+                    <controls:TileControl Grid.Row="4" Grid.Column="4" />
+                    <controls:TileControl Grid.Row="4" Grid.Column="5" />
+                    <controls:TileControl Grid.Row="4" Grid.Column="6" />
+                    <controls:TileControl Grid.Row="4" Grid.Column="7" />
+
+                    <!-- Row 5 -->
+                    <controls:TileControl Grid.Row="5" Grid.Column="0" />
+                    <controls:TileControl Grid.Row="5" Grid.Column="1" />
+                    <controls:TileControl Grid.Row="5" Grid.Column="2" />
+                    <controls:TileControl Grid.Row="5" Grid.Column="3" />
+                    <controls:TileControl Grid.Row="5" Grid.Column="4" />
+                    <controls:TileControl Grid.Row="5" Grid.Column="5" />
+                    <controls:TileControl Grid.Row="5" Grid.Column="6" />
+                    <controls:TileControl Grid.Row="5" Grid.Column="7" />
+                </Grid>
+                </ScrollView>
+                </Grid>
+        </Grid>
+
+        <!-- Bottom Row: Controls -->
+        <Grid Grid.Row="2" 
+              BackgroundColor="{StaticResource BlackTransparent}"
+              >
+            <Grid.ColumnDefinitions>
+                <!-- Coming tiles preview area (fills available width) -->
+                <ColumnDefinition Width="*" />
+                <!-- Exit button (fixed width) -->
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Coming Tiles Preview -->
+            <controls:NextTilesQueueControl x:Name="NextTilesQueue"
+                                           Grid.Column="0" />
+
+            <!-- Exit Button -->
+            <Button Grid.Column="1"
+                    x:Name="ExitButton"
+                    Text="EXIT"
+                    Style="{StaticResource GradientButton}"
+                    Clicked="OnExitButtonClicked">
+            </Button>
+        </Grid>
+        </Grid>
+    </AbsoluteLayout>
+
+</ContentPage>

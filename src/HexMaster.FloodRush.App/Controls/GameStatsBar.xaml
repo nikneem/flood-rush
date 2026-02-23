@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Border xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        x:Class="HexMaster.FloodRush.App.Controls.GameStatsBar"
+        Padding="0,0"
+        StrokeThickness="0"
+        BackgroundColor="{StaticResource BlackTransparent}"
+        >
+    <Grid ColumnSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Current Level -->
+        <VerticalStackLayout Grid.Column="0"
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center"
+                            Spacing="0">
+            <Label Text="LEVEL"
+                   FontSize="8"
+                   TextColor="{StaticResource Gray200}"
+                   HorizontalOptions="Center" />
+            <Label x:Name="LevelLabel"
+                   FontSize="12"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Gray100}"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Play Time -->
+        <VerticalStackLayout Grid.Column="1"
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center"
+                            Spacing="2">
+            <Label Text="TIME"
+                   FontSize="8"
+                   TextColor="{StaticResource Gray200}"
+                   HorizontalOptions="Center" />
+            <Label x:Name="TimeLabel"
+                   FontSize="12"
+                   FontAttributes="Bold"
+                   FontFamily="Monospace"
+                   TextColor="{StaticResource Gray100}"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- High Score -->
+        <VerticalStackLayout Grid.Column="2"
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center"
+                            Spacing="2">
+            <Label Text="HIGH SCORE"
+                   FontSize="8"
+                   TextColor="{StaticResource Gray200}"
+                   HorizontalOptions="Center" />
+            <Label x:Name="HighScoreLabel"
+                   FontSize="12"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Primary}"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <!-- Current Score -->
+        <VerticalStackLayout Grid.Column="3"
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center"
+                            Spacing="2">
+            <Label Text="SCORE"
+                   FontSize="8"
+                   TextColor="{StaticResource Gray200}"
+                   HorizontalOptions="Center" />
+            <Label x:Name="ScoreLabel"
+                   FontSize="12"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Tertiary}"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </Grid>
+</Border>
