@@ -1,0 +1,18 @@
+{
+  "Number": 1,
+  "FieldDimensions": {
+    "Width": 8,
+    "Height": 6
+  },
+  "StartPosition": {
+    "X": 0,
+    "Y": 3
+  },
+  "EndPosition": {
+    "X": 7,
+    "Y": 4
+  },
+  "GameSpeed": 1,
+  "FloodTimeout": 30,
+  "ExcludedTileTypes": []
+}

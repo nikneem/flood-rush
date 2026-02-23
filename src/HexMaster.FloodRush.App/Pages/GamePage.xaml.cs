@@ -15,16 +15,25 @@ public partial class GamePage : ContentPage
         BindingContext = _viewModel;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
+
+        // Initialize the playfield with the loaded level
+        if (_viewModel.Level != null)
+        {
+            PlayField.InitializeLevel(_viewModel.Level);
+        }
+
+        // Load tiles progressively into the queue
+        await NextTilesQueue.LoadTilesProgressivelyAsync();
+
         StartGameTimer();
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        StopGameTimer();
     }
 
     private void StartGameTimer()

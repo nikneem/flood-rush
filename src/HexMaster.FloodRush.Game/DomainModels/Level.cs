@@ -1,3 +1,6 @@
+using System.Reflection;
+using System.Text.Json;
+
 namespace HexMaster.FloodRush.Game.DomainModels;
 
 public class Level
@@ -61,6 +64,44 @@ public class Level
         return level;
     }
 
+    public static Level Load(int level)
+    {
+        if (level <= 0)
+            throw new ArgumentException("Level number must be greater than zero", nameof(level));
+
+        var resourceName = $"HexMaster.FloodRush.Game.Levels.level_{level:000}.json";
+        var assembly = Assembly.GetExecutingAssembly();
+
+        using var stream = assembly.GetManifestResourceStream(resourceName);
+        if (stream == null)
+            throw new FileNotFoundException($"Level file not found: {resourceName}");
+
+        var levelData = JsonSerializer.Deserialize<LevelData>(stream);
+        if (levelData == null)
+            throw new InvalidOperationException($"Failed to deserialize level {level}");
+
+        var fieldDimensions = FieldDimensions.Create(
+            levelData.FieldDimensions.Width,
+            levelData.FieldDimensions.Height);
+
+        var startPosition = Position.Create(
+            levelData.StartPosition.X,
+            levelData.StartPosition.Y);
+
+        var endPosition = Position.Create(
+            levelData.EndPosition.X,
+            levelData.EndPosition.Y);
+
+        return Create(
+            levelData.Number,
+            fieldDimensions,
+            startPosition,
+            endPosition,
+            levelData.GameSpeed,
+            levelData.FloodTimeout,
+            levelData.ExcludedTileTypes);
+    }
+
     public void AddPoints(int points)
     {
         if (points < 0)
@@ -86,4 +127,17 @@ public class Level
                 $"Position Y ({position.Y}) must be less than field height ({dimensions.Height})",
                 paramName);
     }
+
+    private record LevelData(
+        int Number,
+        FieldDimensionsData FieldDimensions,
+        PositionData StartPosition,
+        PositionData EndPosition,
+        int GameSpeed,
+        int FloodTimeout,
+        int[]? ExcludedTileTypes);
+
+    private record FieldDimensionsData(int Width, int Height);
+
+    private record PositionData(int X, int Y);
 }

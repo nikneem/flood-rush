@@ -2,6 +2,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using HexMaster.FloodRush.App.Services;
 using HexMaster.FloodRush.App.Models;
+using HexMaster.FloodRush.Game.DomainModels;
 
 namespace HexMaster.FloodRush.App.ViewModels;
 
@@ -14,6 +15,7 @@ public class GamePageViewModel : INotifyPropertyChanged
     private int _topScore;
     private int _currentScore;
     private string _playerName = string.Empty;
+    private Level? _level;
 
     public GamePageViewModel(ISettingsService settingsService)
     {
@@ -78,6 +80,19 @@ public class GamePageViewModel : INotifyPropertyChanged
         }
     }
 
+    public Level? Level
+    {
+        get => _level;
+        set
+        {
+            if (_level != value)
+            {
+                _level = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private void InitializeGame()
@@ -94,10 +109,13 @@ public class GamePageViewModel : INotifyPropertyChanged
         PlayerName = settings.PlayerName;
 
         // Initialize game state
-        CurrentLevel = 1;
+        CurrentLevel = settings.CurrentLevel;
         _playTime = TimeSpan.Zero;
         TopScore = 0; // TODO: Load from high score service
         CurrentScore = 0;
+
+        // Load the level
+        Level = Game.DomainModels.Level.Load(settings.CurrentLevel);
     }
 
     private string GeneratePlayerName()

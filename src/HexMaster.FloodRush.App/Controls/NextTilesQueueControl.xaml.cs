@@ -13,32 +13,48 @@ public partial class NextTilesQueueControl : Border
     public NextTilesQueueControl()
     {
         InitializeComponent();
-        InitializeQueue();
     }
 
-    private void InitializeQueue()
+    /// <summary>
+    /// Progressively loads tiles into the queue with a 200ms delay between each tile
+    /// until the queue contains 20 tiles.
+    /// </summary>
+    public async Task LoadTilesProgressivelyAsync()
     {
-        // Generate initial 20 random pipe sections
-        for (int i = 0; i < QueueSize; i++)
-        {
-            _pipeQueue.Add(GenerateRandomPipeSection(i));
-        }
-
-        // Display all pipes
-        RenderQueue();
-    }
-
-    private void RenderQueue()
-    {
+        // Clear any existing queue
+        _pipeQueue.Clear();
         TilesContainer.Children.Clear();
 
-        foreach (var pipe in _pipeQueue)
+        // Add tiles progressively with 200ms interval
+        for (int i = 0; i < QueueSize; i++)
         {
+            var newPipe = GenerateRandomPipeSection(i);
+            _pipeQueue.Add(newPipe);
+            
+            // Create and add the pipe control positioned off-screen to the right
             var pipeControl = new PipeControl
             {
-                PipeSection = pipe
+                PipeSection = newPipe,
+                TranslationX = 200, // Start off-screen to the right
+                Opacity = 0
             };
+            
             TilesContainer.Children.Add(pipeControl);
+            
+            // Slide in from right with fade-in, creating a gravity effect
+            await Task.WhenAll(
+                pipeControl.TranslateToAsync(5, 0, 300, Easing.CubicOut),
+                pipeControl.FadeToAsync(1, 300)
+            );
+            
+            // Bounce back to final position for gravity effect
+            await pipeControl.TranslateToAsync(0, 0, BounceBackDuration, Easing.BounceOut);
+            
+            // Wait 200ms before adding the next tile (except for the last one)
+            if (i < QueueSize - 1)
+            {
+                await Task.Delay(50);
+            }
         }
     }
 
