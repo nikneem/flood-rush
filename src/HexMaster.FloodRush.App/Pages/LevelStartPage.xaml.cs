@@ -4,12 +4,9 @@ namespace HexMaster.FloodRush.App.Pages;
 
 public partial class LevelStartPage : ContentPage
 {
-    private TaskCompletionSource<bool>? _taskCompletionSource;
-
     public LevelStartPage()
     {
         InitializeComponent();
-        _taskCompletionSource = new TaskCompletionSource<bool>();
     }
 
     public void SetLevelInfo(Level level)
@@ -20,15 +17,10 @@ public partial class LevelStartPage : ContentPage
         System.Diagnostics.Debug.WriteLine($"Level Start - Level: {level.Number}, Grid: {level.FieldDimensions.Width}×{level.FieldDimensions.Height}");
     }
 
-    public Task<bool> WaitForStartAsync()
+    private async void OnStartButtonClicked(object? sender, EventArgs e)
     {
-        return _taskCompletionSource?.Task ?? Task.FromResult(true);
-    }
-
-    private void OnStartButtonClicked(object? sender, EventArgs e)
-    {
-        System.Diagnostics.Debug.WriteLine("Start button clicked");
-        _taskCompletionSource?.TrySetResult(true);
+        System.Diagnostics.Debug.WriteLine("Start button clicked - closing modal");
+        await Navigation.PopModalAsync(animated: false);
     }
 
     protected override bool OnBackButtonPressed()

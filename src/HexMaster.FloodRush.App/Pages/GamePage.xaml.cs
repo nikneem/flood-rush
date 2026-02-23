@@ -7,6 +7,8 @@ public partial class GamePage : ContentPage
     private readonly GamePageViewModel _viewModel;
     private System.Timers.Timer? _gameTimer;
     private TimeSpan _elapsedTime;
+    private bool _isLevelStarted = false;
+    private readonly SemaphoreSlim _initializationLock = new SemaphoreSlim(1, 1);
 
     public GamePage(GamePageViewModel viewModel)
     {
@@ -19,33 +21,57 @@ public partial class GamePage : ContentPage
     {
         base.OnAppearing();
 
-        // Initialize the playfield with the loaded level
-        if (_viewModel.Level != null)
+        // Prevent concurrent initialization attempts
+        if (!await _initializationLock.WaitAsync(0))
         {
-            PlayField.InitializeLevel(_viewModel.Level);
-
-            // Show level start dialog
-            var levelStartPage = new LevelStartPage();
-            levelStartPage.SetLevelInfo(_viewModel.Level);
-
-            await Navigation.PushModalAsync(levelStartPage, animated: false);
-
-            // Wait for user to click start
-            await levelStartPage.WaitForStartAsync();
-
-            // Close the dialog
-            await Navigation.PopModalAsync(animated: false);
+            return; // Already initializing
         }
 
-        // Load tiles progressively into the queue
-        await NextTilesQueue.LoadTilesProgressivelyAsync();
+        try
+        {
+            // Only show the level start dialog and initialize once
+            if (!_isLevelStarted && _viewModel.Level != null)
+            {
+                _isLevelStarted = true;
 
-        StartGameTimer();
+                PlayField.InitializeLevel(_viewModel.Level);
+
+                // Show level start dialog
+                var levelStartPage = new LevelStartPage();
+                levelStartPage.SetLevelInfo(_viewModel.Level);
+
+                // Show modal and set up continuation when it's dismissed
+                await Navigation.PushModalAsync(levelStartPage, animated: false);
+
+                // Subscribe to the Disappearing event to know when modal is closed
+                var tcs = new TaskCompletionSource<bool>();
+                void OnDisappearing(object? s, EventArgs e)
+                {
+                    levelStartPage.Disappearing -= OnDisappearing;
+                    tcs.TrySetResult(true);
+                }
+                levelStartPage.Disappearing += OnDisappearing;
+
+                // Wait for the modal to be closed (by the Start button)
+                await tcs.Task;
+
+                // Load tiles progressively into the queue
+                await NextTilesQueue.LoadTilesProgressivelyAsync();
+
+                StartGameTimer();
+            }
+        }
+        finally
+        {
+            _initializationLock.Release();
+        }
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+        StopGameTimer();
+        _isLevelStarted = false;
     }
 
     private void StartGameTimer()
