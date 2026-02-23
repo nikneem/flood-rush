@@ -15,8 +15,7 @@ public partial class MainPage : ContentPage
 
 	private async void OnPlayNowClicked(object? sender, EventArgs e)
 	{
-		// TODO: Navigate to game page
-		await DisplayAlert("Play Now", "Game will start here!", "OK");
+		await Shell.Current.GoToAsync(nameof(GamePage));
 	}
 
 	private async void OnSettingsClicked(object? sender, EventArgs e)
