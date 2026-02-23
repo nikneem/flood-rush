@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Border xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:controls="clr-namespace:HexMaster.FloodRush.App.Controls"
         x:Class="HexMaster.FloodRush.App.Controls.TileControl"
+        x:Name="RootBorder"
         BackgroundColor="{StaticResource Secondary}"
         StrokeThickness="0"
         Padding="0"
         WidthRequest="40"
         HeightRequest="40">
     
-    <Image x:Name="TileImage"
-           Aspect="AspectFill"
-           HorizontalOptions="Fill"
-           VerticalOptions="Fill" />
+    <Grid>
+        <!-- Background tile image -->
+        <Image x:Name="TileImage"
+               Aspect="AspectFill"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill" />
+        
+        <!-- Pipe overlay (shown when pipe is placed) -->
+        <controls:PipeControl x:Name="PipeOverlay"
+                             IsVisible="False"
+                             BackgroundColor="Transparent" />
+        
+        <!-- Highlight overlay (shown when hovering during drag) -->
+        <BoxView x:Name="HighlightOverlay"
+                 IsVisible="False"
+                 Color="{StaticResource Primary}"
+                 Opacity="0.4" />
+    </Grid>
     
 </Border>

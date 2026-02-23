@@ -103,4 +103,95 @@ public partial class PlayFieldControl : ContentView
         // Create a new TileControl which will automatically load a random tile
         return new TileControl();
     }
+    
+    private TileControl? _highlightedTile;
+    
+    public void CheckHoverPosition(Point position)
+    {
+        // Get the position relative to the content container
+        var localPosition = position;
+        
+        // Find which tile is at this position
+        var tile = GetTileAtPosition(localPosition);
+        
+        if (tile != _highlightedTile)
+        {
+            // Clear previous highlight
+            if (_highlightedTile != null)
+            {
+                _highlightedTile.SetHighlight(false);
+            }
+            
+            // Highlight new tile if it can accept a pipe
+            if (tile != null && tile.CanAcceptPipe())
+            {
+                tile.SetHighlight(true);
+                _highlightedTile = tile;
+            }
+            else
+            {
+                _highlightedTile = null;
+            }
+        }
+    }
+    
+    public bool TryPlacePipe(PipeSection pipeSection, Point position)
+    {
+        var tile = GetTileAtPosition(position);
+        
+        if (tile != null && tile.CanAcceptPipe())
+        {
+            tile.PlacePipe(pipeSection);
+            ClearHighlight();
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public void ClearHighlight()
+    {
+        if (_highlightedTile != null)
+        {
+            _highlightedTile.SetHighlight(false);
+            _highlightedTile = null;
+        }
+    }
+    
+    private TileControl? GetTileAtPosition(Point position)
+    {
+        foreach (var child in ContentContainer.Children)
+        {
+            if (child is TileControl tile)
+            {
+                var bounds = tile.Bounds;
+                var tilePosition = GetAbsolutePosition(tile);
+                
+                var tileBounds = new Rect(tilePosition.X, tilePosition.Y, bounds.Width, bounds.Height);
+                
+                if (tileBounds.Contains(position))
+                {
+                    return tile;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    private Point GetAbsolutePosition(View view)
+    {
+        var x = 0.0;
+        var y = 0.0;
+        
+        var element = view as IView;
+        while (element != null && element != this)
+        {
+            x += element.Frame.X;
+            y += element.Frame.Y;
+            element = element.Parent as IView;
+        }
+        
+        return new Point(x, y);
+    }
 }

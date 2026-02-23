@@ -1,4 +1,6 @@
 using HexMaster.FloodRush.App.ViewModels;
+using HexMaster.FloodRush.App.Controls;
+using HexMaster.FloodRush.Game.DomainModels;
 
 namespace HexMaster.FloodRush.App.Pages;
 
@@ -9,12 +11,94 @@ public partial class GamePage : ContentPage
     private TimeSpan _elapsedTime;
     private bool _isLevelStarted = false;
     private readonly SemaphoreSlim _initializationLock = new SemaphoreSlim(1, 1);
+    private PipeSection? _draggingPipe;
+    private PointerGestureRecognizer? _pointerGesture;
 
     public GamePage(GamePageViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
+        SetupDragAndDrop();
+    }
+    
+    private void SetupDragAndDrop()
+    {
+        // Subscribe to drag events from NextTilesQueue
+        NextTilesQueue.PipeDragStarted += OnPipeDragStarted;
+        NextTilesQueue.PipeDragEnded += OnPipeDragEnded;
+        
+        // Setup pointer gesture for tracking drag movement
+        _pointerGesture = new PointerGestureRecognizer();
+        _pointerGesture.PointerMoved += OnPointerMoved;
+        ContentGrid.GestureRecognizers.Add(_pointerGesture);
+        
+        // Setup drop gesture for playfield
+        var dropGesture = new DropGestureRecognizer();
+        dropGesture.Drop += OnDrop;
+        PlayField.GestureRecognizers.Add(dropGesture);
+    }
+    
+    private void OnPipeDragStarted(object? sender, PipeDragStartedEventArgs e)
+    {
+        _draggingPipe = e.PipeSection;
+        
+        // Show and position the drag overlay
+        DragOverlay.PipeSection = e.PipeSection;
+        DragOverlay.IsVisible = true;
+        DragOverlay.Opacity = 0.8;
+        
+        // Position at touch point (centered on the pipe)
+        AbsoluteLayout.SetLayoutBounds(DragOverlay, new Rect(e.StartPosition.X - 20, e.StartPosition.Y - 20, 40, 40));
+        
+        System.Diagnostics.Debug.WriteLine($"Drag overlay shown at {e.StartPosition}");
+    }
+    
+    private void OnPointerMoved(object? sender, PointerEventArgs e)
+    {
+        if (_draggingPipe != null && DragOverlay.IsVisible)
+        {
+            var position = e.GetPosition(this);
+            if (position.HasValue)
+            {
+                // Update drag overlay position (centered on pointer)
+                AbsoluteLayout.SetLayoutBounds(DragOverlay, new Rect(position.Value.X - 20, position.Value.Y - 20, 40, 40));
+                
+                // Check if hovering over a valid tile and highlight it
+                PlayField.CheckHoverPosition(position.Value);
+            }
+        }
+    }
+    
+    private void OnDrop(object? sender, DropEventArgs e)
+    {
+        if (_draggingPipe != null)
+        {
+            var position = e.GetPosition(PlayField);
+            if (position.HasValue)
+            {
+                var success = PlayField.TryPlacePipe(_draggingPipe, position.Value);
+                NextTilesQueue.OnDragCompleted(success);
+                
+                System.Diagnostics.Debug.WriteLine($"Drop at {position.Value}, success: {success}");
+            }
+            else
+            {
+                NextTilesQueue.OnDragCompleted(false);
+            }
+        }
+        
+        // Hide drag overlay
+        DragOverlay.IsVisible = false;
+        _draggingPipe = null;
+    }
+    
+    private void OnPipeDragEnded(object? sender, EventArgs e)
+    {
+        // Hide drag overlay if drag ended without drop
+        DragOverlay.IsVisible = false;
+        _draggingPipe = null;
+        PlayField.ClearHighlight();
     }
 
     protected override async void OnAppearing()

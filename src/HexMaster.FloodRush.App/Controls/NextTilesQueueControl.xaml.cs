@@ -2,6 +2,18 @@ using HexMaster.FloodRush.Game.DomainModels;
 
 namespace HexMaster.FloodRush.App.Controls;
 
+public class PipeDragStartedEventArgs : EventArgs
+{
+    public PipeSection PipeSection { get; set; }
+    public Point StartPosition { get; set; }
+
+    public PipeDragStartedEventArgs(PipeSection pipeSection, Point startPosition)
+    {
+        PipeSection = pipeSection;
+        StartPosition = startPosition;
+    }
+}
+
 public partial class NextTilesQueueControl : Border
 {
     private const int QueueSize = 20;
@@ -9,6 +21,10 @@ public partial class NextTilesQueueControl : Border
     private const uint BounceBackDuration = 100;
     private readonly List<PipeSection> _pipeQueue = new();
     private readonly Random _random = new();
+    private PipeControl? _draggingPipeControl;
+
+    public event EventHandler<PipeDragStartedEventArgs>? PipeDragStarted;
+    public event EventHandler? PipeDragEnded;
 
     public NextTilesQueueControl()
     {
@@ -40,6 +56,12 @@ public partial class NextTilesQueueControl : Border
             };
 
             TilesContainer.Children.Add(pipeControl);
+
+            // Add drag gesture to the first pipe (index 0)
+            if (i == 0)
+            {
+                AddDragGesture(pipeControl);
+            }
 
             // Slide in from right with fade-in, creating a gravity effect
             await Task.WhenAll(
@@ -152,6 +174,12 @@ public partial class NextTilesQueueControl : Border
         }
 
         await Task.WhenAll(tasks);
+        
+        // Add drag gesture to the new first pipe
+        if (TilesContainer.Children.Count > 0 && TilesContainer.Children[0] is PipeControl newFirstPipe)
+        {
+            AddDragGesture(newFirstPipe);
+        }
     }
 
     private async Task AnimateSlideWithBounce(View view)
@@ -199,4 +227,72 @@ public partial class NextTilesQueueControl : Border
     }
 
     public int RemainingCount => _pipeQueue.Count;
+
+    private void AddDragGesture(PipeControl pipeControl)
+    {
+        var dragGesture = new DragGestureRecognizer();
+        dragGesture.DragStarting += OnDragStarting;
+        pipeControl.GestureRecognizers.Add(dragGesture);
+    }
+
+    private void OnDragStarting(object? sender, DragStartingEventArgs e)
+    {
+        if (sender is PipeControl pipeControl && pipeControl.PipeSection != null)
+        {
+            _draggingPipeControl = pipeControl;
+            
+            // Make the original control semi-transparent
+            pipeControl.Opacity = 0.3;
+            
+            // Get the position of the pipe control
+            var position = pipeControl.GetScreenCoordinates();
+            
+            // Fire event to notify parent (GamePage)
+            PipeDragStarted?.Invoke(this, new PipeDragStartedEventArgs(pipeControl.PipeSection, position));
+            
+            System.Diagnostics.Debug.WriteLine($"Drag started for pipe: {pipeControl.PipeSection.Type}");
+        }
+    }
+
+    public void OnDragCompleted(bool success)
+    {
+        // Restore opacity of the dragging control
+        if (_draggingPipeControl != null)
+        {
+            if (success)
+            {
+                // Remove the pipe from queue if successfully placed
+                _ = TakeNextPipeAsync();
+            }
+            else
+            {
+                // Restore full opacity if drag was cancelled
+                _draggingPipeControl.Opacity = 1.0;
+            }
+            
+            _draggingPipeControl = null;
+        }
+        
+        PipeDragEnded?.Invoke(this, EventArgs.Empty);
+    }
+}
+
+// Extension method to get screen coordinates
+public static class ViewExtensions
+{
+    public static Point GetScreenCoordinates(this View view)
+    {
+        var x = 0.0;
+        var y = 0.0;
+        
+        var element = view as IView;
+        while (element != null)
+        {
+            x += element.Frame.X;
+            y += element.Frame.Y;
+            element = element.Parent as IView;
+        }
+        
+        return new Point(x, y);
+    }
 }

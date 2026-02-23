@@ -63,6 +63,13 @@
             </Button>
         </Grid>
         </Grid>
+        
+        <!-- Drag Overlay - shown on top when dragging -->
+        <controls:PipeControl x:Name="DragOverlay"
+                             IsVisible="False"
+                             AbsoluteLayout.LayoutBounds="0,0,40,40"
+                             AbsoluteLayout.LayoutFlags="None"
+                             InputTransparent="True" />
     </AbsoluteLayout>
 
 </ContentPage>
